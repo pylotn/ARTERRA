@@ -1,0 +1,286 @@
+{% extends "store/base.html" %}
+
+{% block title %}ARTERRA — необычное цифровое искусство{% endblock %}
+
+{% block content %}
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="container hero-grid">
+
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            DIGITAL ART MARKETPLACE
+        </div>
+
+        <h1>
+            Искусство,<br>
+            которое<br>
+            <span>выделяется.</span>
+        </h1>
+
+        <p class="hero-text">
+            Необычные цифровые работы для экранов,
+            интерьеров и личных коллекций.
+        </p>
+
+        <div class="hero-actions">
+            <a href="{% url 'catalog' %}" class="button button-primary">
+                Смотреть каталог
+                <span>↗</span>
+            </a>
+
+            <a href="#categories" class="button button-secondary">
+                Исследовать
+            </a>
+        </div>
+
+        <div class="hero-meta">
+
+            <div>
+                <strong>{{ active_artworks_count }}</strong>
+                <span>работ</span>
+            </div>
+
+            <div>
+                <strong>{{ categories|length }}</strong>
+                <span>категории</span>
+            </div>
+
+            <div>
+                <strong>∞</strong>
+                <span>идей</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-visual">
+
+        {% if featured_artworks %}
+
+            {% with artwork=featured_artworks.0 %}
+
+                <div class="hero-image-wrapper">
+
+                    <img
+                        src="{{ artwork.image.url }}"
+                        alt="{{ artwork.title }}"
+                        class="hero-image"
+                    >
+
+                    <div class="hero-image-overlay"></div>
+
+                    <div class="hero-art-info">
+
+                        <span>FEATURED ARTWORK</span>
+
+                        <h3>{{ artwork.title }}</h3>
+
+                        <p>{{ artwork.price }} ₸</p>
+
+                    </div>
+
+                    <div class="hero-number">
+                        01
+                    </div>
+
+                </div>
+
+            {% endwith %}
+
+        {% else %}
+
+            <div class="hero-placeholder">
+                <span>ARTERRA</span>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+</section>
+
+<!-- CATEGORIES -->
+
+<section class="section categories-section" id="categories">
+
+<div class="container">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="section-label">01 / EXPLORE</span>
+
+            <h2>
+                Найди своё<br>
+                направление.
+            </h2>
+        </div>
+
+        <p>
+            От сюрреализма до абстракции —
+            исследуй коллекции ARTERRA.
+        </p>
+
+    </div>
+
+
+    <div class="categories">
+
+        {% for category in categories %}
+
+            <a href="{% url 'category' category.slug %}" class="category-card">
+
+                <div class="category-number">
+                    0{{ forloop.counter }}
+                </div>
+
+                <div class="category-content">
+
+                    <h3>
+                        {{ category.name }}
+                    </h3>
+
+                    {% if category.description %}
+                        <p>{{ category.description }}</p>
+                    {% else %}
+                        <p>Исследовать коллекцию</p>
+                    {% endif %}
+
+                </div>
+
+                <span class="category-arrow">
+                    ↗
+                </span>
+
+            </a>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <p>Категории пока не добавлены.</p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+</section>
+
+<!-- FEATURED ARTWORKS -->
+
+<section class="section artworks-section">
+
+<div class="container">
+
+    <div class="section-heading artworks-heading">
+
+        <div>
+            <span class="section-label">02 / COLLECTION</span>
+
+            <h2>
+                Избранные<br>
+                работы.
+            </h2>
+        </div>
+
+        <a href="{% url 'catalog' %}" class="text-link">
+            Смотреть все
+            <span>↗</span>
+        </a>
+
+    </div>
+
+
+    <div class="artworks">
+
+        {% for artwork in featured_artworks %}
+
+            <article class="artwork-card">
+
+                <a href="{% url 'artwork_detail' artwork.slug %}" class="artwork-image-wrapper">
+
+                    <img
+                        src="{{ artwork.image.url }}"
+                        alt="{{ artwork.title }}"
+                        class="artwork-image"
+                    >
+
+                    <div class="artwork-hover">
+                        <span>Смотреть работу</span>
+                        <span>↗</span>
+                    </div>
+
+                </a>
+
+                <div class="artwork-info">
+
+                    <div>
+                        <h3>{{ artwork.title }}</h3>
+
+                        <p>
+                            {{ artwork.category.name }}
+                        </p>
+                    </div>
+
+                    <strong>
+                        {{ artwork.price }} ₸
+                    </strong>
+
+                </div>
+
+            </article>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <p>
+                    Пока нет избранных работ.
+                </p>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+</section>
+
+<!-- CTA -->
+
+<section class="cta-section">
+
+<div class="container">
+
+    <div class="cta">
+
+        <span class="section-label">
+            03 / ARTERRA
+        </span>
+
+        <h2>
+            Создавай.<br>
+            Исследуй.<br>
+            <span>Выделяйся.</span>
+        </h2>
+
+        <a href="{% url 'catalog' %}" class="button button-light">
+            Перейти в каталог
+            <span>↗</span>
+        </a>
+
+    </div>
+
+</div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "store/base.html" %}
+
+{% block title %}Заказ оформлен — ARTERRA{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="empty-state">
+
+            <span class="section-label">
+                SUCCESS
+            </span>
+
+            <h1>
+                Заказ оформлен!
+            </h1>
+
+            <p>
+                Спасибо за заказ, {{ order.customer_name }}.
+            </p>
+
+            <p>
+                Номер заказа: <strong>№{{ order.id }}</strong>
+            </p>
+
+            <p>
+                Сумма заказа:
+                <strong>{{ order.total_price }} ₸</strong>
+            </p>
+
+            <a
+                href="{% url 'order_detail' order.id %}"
+                class="button button-secondary"
+            >
+                Посмотреть заказ
+            </a>
+
+            <a
+                href="{% url 'catalog' %}"
+                class="button button-primary"
+            >
+                Вернуться в каталог
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

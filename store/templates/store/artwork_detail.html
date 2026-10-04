@@ -1,0 +1,56 @@
+{% extends "store/base.html" %}
+
+{% block title %}{{ artwork.title }} — ARTERRA{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="artwork-detail">
+
+            <div class="artwork-detail-image">
+
+                <img
+                    src="{{ artwork.image.url }}"
+                    alt="{{ artwork.title }}"
+                >
+
+            </div>
+
+
+            <div class="artwork-detail-info">
+
+                <span class="section-label">
+                    {{ artwork.category.name }}
+                </span>
+
+                <h1>
+                    {{ artwork.title }}
+                </h1>
+
+                <p class="artwork-detail-description">
+                    {{ artwork.description }}
+                </p>
+
+                <div class="artwork-detail-price">
+                    {{ artwork.price }} ₸
+                </div>
+
+                <form method="post" action="{% url 'cart_add' artwork.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="button button-primary">
+                        Добавить в корзину <span>↗</span>
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

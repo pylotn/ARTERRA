@@ -1,0 +1,98 @@
+{% extends "store/base.html" %}
+
+{% block title %}Оформление заказа — ARTERRA{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="section-label">
+                    CHECKOUT
+                </span>
+
+                <h1>
+                    Оформление заказа.
+                </h1>
+            </div>
+
+        </div>
+
+        <div class="checkout-layout">
+
+            <div class="checkout-form">
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button
+                            type="submit"
+                            class="button button-primary"
+                    >
+                        Подтвердить заказ
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <div class="checkout-summary">
+
+                <h2>
+                    Твой заказ
+                </h2>
+
+                {% for artwork in artworks %}
+
+                <div class="checkout-item">
+
+                    <div>
+
+                        <strong>
+                            {{ artwork.title }}
+                        </strong>
+
+                        <p>
+                            {{ artwork.cart_quantity }} ×
+                            {{ artwork.price }} ₸
+                        </p>
+
+                    </div>
+
+                    <strong>
+                        {{ artwork.line_total|floatformat:2 }} ₸
+                    </strong>
+
+                </div>
+
+                {% endfor %}
+
+                <div class="checkout-total">
+
+                    <span>
+                        Итого
+                    </span>
+
+                    <strong>
+                        {{ total }} ₸
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

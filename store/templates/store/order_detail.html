@@ -1,0 +1,48 @@
+{% extends "store/base.html" %}
+
+{% block title %}Заказ №{{ order.id }} — ARTERRA{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="section-label">ORDER / {{ order.created_at|date:"d.m.Y" }}</span>
+                <h1>Заказ №{{ order.id }}.</h1>
+            </div>
+            <span class="order-status">{{ order.get_status_display }}</span>
+        </div>
+
+        <div class="order-detail-card">
+            <div class="order-detail-items">
+                {% for item in order.items.all %}
+                    <article class="order-detail-item">
+                        {% if item.artwork.image %}
+                            <img src="{{ item.artwork.image.url }}" alt="{{ item.artwork.title }}">
+                        {% endif %}
+                        <div class="order-detail-item-info">
+                            <h2>{{ item.artwork.title }}</h2>
+                            <p>{{ item.quantity }} × {{ item.price }} ₸</p>
+                        </div>
+                        <strong>{{ item.line_total|floatformat:2 }} ₸</strong>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <dl class="order-customer-info">
+                <div><dt>Получатель</dt><dd>{{ order.customer_name }}</dd></div>
+                <div><dt>Телефон</dt><dd>{{ order.phone }}</dd></div>
+                {% if order.email %}<div><dt>Email</dt><dd>{{ order.email }}</dd></div>{% endif %}
+                <div><dt>Адрес</dt><dd>{{ order.address|linebreaksbr }}</dd></div>
+            </dl>
+
+            <div class="order-detail-total">
+                <span>Итого</span>
+                <strong>{{ order.total_price }} ₸</strong>
+            </div>
+        </div>
+
+        <a class="text-link order-back-link" href="{% url 'my_orders' %}">← К моим заказам</a>
+    </div>
+</section>
+{% endblock %}

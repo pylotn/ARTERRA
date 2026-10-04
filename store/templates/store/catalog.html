@@ -1,0 +1,91 @@
+
+{% extends "store/base.html" %}
+
+{% block title %}Каталог — ARTERRA{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+
+                <span class="section-label">
+                    CATALOG
+                </span>
+
+                <h1>
+                    {% if category %}
+                        {{ category.name }}.
+                    {% else %}
+                        Все работы.
+                    {% endif %}
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <div class="artworks">
+
+            {% for artwork in artworks %}
+
+                <article class="artwork-card">
+
+                    <a
+                        href="{% url 'artwork_detail' artwork.slug %}"
+                        class="artwork-image-wrapper"
+                    >
+
+                        <img
+                            src="{{ artwork.image.url }}"
+                            alt="{{ artwork.title }}"
+                            class="artwork-image"
+                        >
+
+                    </a>
+
+
+                    <div class="artwork-info">
+
+                        <div>
+
+                            <h3>
+                                {{ artwork.title }}
+                            </h3>
+
+                            <p>
+                                {{ artwork.category.name }}
+                            </p>
+
+                        </div>
+
+                        <strong>
+                            {{ artwork.price }} ₸
+                        </strong>
+
+                    </div>
+
+                </article>
+
+            {% empty %}
+
+                <div class="empty-state">
+                    <p>
+                        Работ пока нет.
+                    </p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

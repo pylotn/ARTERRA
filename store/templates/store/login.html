@@ -1,0 +1,73 @@
+{% extends "store/base.html" %}
+
+{% block title %}Вход — ARTERRA{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="auth-card">
+
+            <span class="section-label">
+                ACCOUNT
+            </span>
+
+            <h1>
+                Вход в аккаунт.
+            </h1>
+
+            {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+
+            <form method="post"{% if request.GET.next %} action="?next={{ request.GET.next|urlencode }}"{% endif %}>
+
+                {% csrf_token %}
+                {% if request.GET.next %}<input type="hidden" name="next" value="{{ request.GET.next }}">{% endif %}
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Имя пользователя
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Пароль
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="button button-primary"
+                >
+                    Войти
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

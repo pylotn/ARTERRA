@@ -1,0 +1,45 @@
+{% extends "store/base.html" %}
+
+{% block title %}Мои заказы — ARTERRA{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <span class="section-label">ACCOUNT / ORDERS</span>
+                <h1>Мои заказы.</h1>
+            </div>
+        </div>
+
+        {% if orders %}
+            <div class="orders-list">
+                {% for order in orders %}
+                    <article class="order-card">
+                        <div class="order-card-main">
+                            <div>
+                                <span class="order-number">Заказ №{{ order.id }}</span>
+                                <time class="order-date" datetime="{{ order.created_at|date:'c' }}">
+                                    {{ order.created_at|date:"d.m.Y, H:i" }}
+                                </time>
+                            </div>
+                            <span class="order-status">{{ order.get_status_display }}</span>
+                        </div>
+                        <div class="order-card-bottom">
+                            <strong>{{ order.total_price }} ₸</strong>
+                            <a class="text-link" href="{% url 'order_detail' order.id %}">
+                                Открыть заказ <span>↗</span>
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>У тебя пока нет заказов.</p>
+                <a href="{% url 'catalog' %}" class="button button-primary">Перейти в каталог</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

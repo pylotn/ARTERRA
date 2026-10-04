@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="ARTERRA — коллекция необычного цифрового искусства.">
+
+    <title>{% block title %}ARTERRA{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="{% static 'store/css/style.css' %}">
+</head>
+
+<body>
+
+<header class="header">
+    <div class="container header-inner">
+
+        <a href="/" class="logo">
+            ARTERRA<span>.</span>
+        </a>
+
+        <nav class="nav">
+            <a href="{% url 'home' %}" class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}">Главная</a>
+            <a href="{% url 'catalog' %}" class="nav-link{% if request.resolver_match.url_name == 'catalog' or request.resolver_match.url_name == 'category' %} active{% endif %}">Каталог</a>
+            <a href="{% url 'home' %}#categories" class="nav-link">Категории</a>
+            {% if user.is_authenticated %}
+                <span>{{ user.username }}</span>
+                <a class="nav-link" href="{% url 'my_orders' %}">Мои заказы</a>
+                <form method="post" action="{% url 'logout' %}" class="nav-logout-form">
+                    {% csrf_token %}
+                    <button class="nav-link" type="submit">Выйти</button>
+                </form>
+
+            {% else %}
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'login' %} active{% endif %}" href="{% url 'login' %}">
+                Войти
+            </a>
+
+            <a class="nav-link{% if request.resolver_match.url_name == 'register' %} active{% endif %}" href="{% url 'register' %}">
+                Регистрация
+            </a>
+
+            {% endif %}
+        </nav>
+
+        <a href="{% url 'cart' %}" class="cart-button">
+            <span>Корзина</span>
+            <span class="cart-icon">↗</span>
+        </a>
+
+    </div>
+</header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="footer">
+
+    <div class="container">
+
+        <div class="footer-top">
+
+            <div>
+                <a href="/" class="logo footer-logo">
+                    ARTERRA<span>.</span>
+                </a>
+
+                <p class="footer-description">
+                    Необычное цифровое искусство
+                    для необычных пространств.
+                </p>
+            </div>
+
+            <div class="footer-links">
+
+                <div>
+                    <h4>Навигация</h4>
+                    <a href="/">Главная</a>
+                    <a href="{% url 'catalog' %}">Каталог</a>
+                    <a href="{% url 'home' %}#categories">Категории</a>
+                </div>
+
+                <div>
+                    <h4>ARTERRA</h4>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'my_orders' %}">Мои заказы</a>
+                    {% else %}
+                        <a href="{% url 'register' %}">Создать аккаунт</a>
+                    {% endif %}
+                    <a href="{% url 'cart' %}">Корзина</a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <span>© {% now "Y" %} ARTERRA</span>
+            <span>Digital Art Marketplace</span>
+        </div>
+
+    </div>
+</footer>
+
+</body>
+</html>

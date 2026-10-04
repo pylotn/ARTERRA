@@ -1,0 +1,144 @@
+{% extends "store/base.html" %}
+
+{% block title %}Корзина — ARTERRA{% endblock %}
+
+{% block content %}
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="section-label">
+                    CART
+                </span>
+
+                <h1>
+                    Твоя корзина.
+                </h1>
+            </div>
+
+        </div>
+
+
+        {% if artworks %}
+
+        <div class="cart-items">
+
+            {% for artwork in artworks %}
+
+            <div class="cart-item">
+
+                <img
+                        src="{{ artwork.image.url }}"
+                        alt="{{ artwork.title }}"
+                >
+
+
+                <div class="cart-item-info">
+
+                    <h3>
+                        {{ artwork.title }}
+                    </h3>
+
+                    <p>
+                        {{ artwork.category.name }}
+                    </p>
+
+
+                    <div class="cart-quantity">
+
+                        <form method="post" action="{% url 'cart_change' artwork.id 'minus' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="quantity-button" aria-label="Уменьшить количество">−</button>
+                        </form>
+
+                        <span>
+                                    {{ artwork.cart_quantity }}
+                                </span>
+
+                        <form method="post" action="{% url 'cart_change' artwork.id 'plus' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="quantity-button" aria-label="Увеличить количество">+</button>
+                        </form>
+
+                    </div>
+
+
+                    <form method="post" action="{% url 'cart_remove' artwork.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="cart-remove">Удалить</button>
+                    </form>
+
+                </div>
+
+
+                <strong>
+                    {{ artwork.line_total|floatformat:2 }} ₸
+                </strong>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="cart-total">
+
+                <span>
+                    Итого
+                </span>
+
+            <strong>
+                {{ total }} ₸
+            </strong>
+
+        </div>
+
+
+        <div class="cart-actions">
+
+            <a
+                    href="{% url 'catalog' %}"
+                    class="button"
+            >
+                Продолжить покупки
+            </a>
+
+            <a
+                    href="{% url 'checkout' %}"
+                    class="button button-primary"
+            >
+                Оформить заказ
+            </a>
+
+        </div>
+
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <p>
+                Твоя корзина пока пуста.
+            </p>
+
+            <a
+                    href="{% url 'catalog' %}"
+                    class="button button-primary"
+            >
+                Перейти в каталог
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endblock %}
