@@ -160,7 +160,6 @@ def checkout(request):
     if request.method == "POST" and form.is_valid():
         with transaction.atomic():
             order = Order.objects.create(
-                user=request.user if request.user.is_authenticated else None,
                 customer_name=form.cleaned_data["customer_name"],
                 phone=form.cleaned_data["phone"],
                 email=form.cleaned_data["email"],
